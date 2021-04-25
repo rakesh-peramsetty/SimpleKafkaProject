@@ -23,24 +23,28 @@ public class ProducerDemoWithCallBack {
 
         KafkaProducer producer = new KafkaProducer(properties);
 
-        // Create Producer Record
-        ProducerRecord<String, String> record = new ProducerRecord<String,String>("first_topic","Hello Rakesh");
+        for (int counter = 0; counter<10;counter++)
+        {
+            // Create Producer Record
+            ProducerRecord<String, String> record = new ProducerRecord<String,String>("first_topic","Hello Rakesh"+counter);
 
-        //Send message
-        producer.send(record,(recordMetadata, e) -> {
-            if(e == null)
-            {
-                logger.info("$$$$$$$$$$$$$$$$$");
-                logger.info("Topic Name: "+ recordMetadata.topic() +
-                        "Offset Value: "+ recordMetadata.offset() +
-                        "Partition: " + recordMetadata.partition()  );
-                logger.info("$$$$$$$$$$$$$$$$$");
-            }else
-            {
-                logger.error("Error in sending the data");
-            }
+            //Send message
+            producer.send(record,(recordMetadata, e) -> {
+                if(e == null)
+                {
+                    logger.info("$$$$$$$$$$$$$$$$$");
+                    logger.info("Topic Name: "+ recordMetadata.topic() +
+                            "Offset Value: "+ recordMetadata.offset() +
+                            "Partition: " + recordMetadata.partition()  );
+                    logger.info("$$$$$$$$$$$$$$$$$");
+                }else
+                {
+                    logger.error("Error in sending the data");
+                }
 
-        });
+            });
+        }
+
         //as Send method is asynchronous call, producer is getting closed before the message is sent.
         // So flush and close the producer
         //flush the data

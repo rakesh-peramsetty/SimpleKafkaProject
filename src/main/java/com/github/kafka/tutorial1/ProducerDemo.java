@@ -31,7 +31,7 @@ public class ProducerDemo {
         producer.flush();
         //flush and close the producer
         producer.close();
-
+        
 
     }
 
